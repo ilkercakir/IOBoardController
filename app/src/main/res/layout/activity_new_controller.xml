@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".NewControllerActivity">
+
+    <TextView
+        android:id="@+id/textViewName"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:text="Controller Name"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/editTextName"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="text"
+        app:layout_constraintLeft_toRightOf="@id/textViewName"
+        app:layout_constraintTop_toTopOf="@id/textViewName" />
+
+    <TextView
+        android:id="@+id/textViewHostname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Controller Host"
+        android:textSize="18sp"
+        app:layout_constraintLeft_toLeftOf="@id/textViewName"
+        app:layout_constraintTop_toTopOf="@id/editTextHostname" />
+
+    <EditText
+        android:id="@+id/editTextHostname"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="text"
+        app:layout_constraintLeft_toLeftOf="@id/editTextName"
+        app:layout_constraintTop_toBottomOf="@id/editTextName" />
+
+    <EditText
+        android:id="@+id/editTextUsername"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="text"
+        app:layout_constraintLeft_toLeftOf="@id/editTextHostname"
+        app:layout_constraintTop_toBottomOf="@id/editTextHostname" />
+
+    <TextView
+        android:id="@+id/textViewUsername"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="User Name"
+        android:textSize="18sp"
+        app:layout_constraintLeft_toLeftOf="@id/textViewHostname"
+        app:layout_constraintTop_toTopOf="@id/editTextUsername" />
+
+    <EditText
+        android:id="@+id/editTextPassword"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPassword"
+        app:layout_constraintLeft_toLeftOf="@id/editTextUsername"
+        app:layout_constraintTop_toBottomOf="@id/editTextUsername" />
+
+    <TextView
+        android:id="@+id/textViewPassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Password"
+        android:textSize="18sp"
+        app:layout_constraintLeft_toLeftOf="@id/textViewUsername"
+        app:layout_constraintTop_toTopOf="@id/editTextPassword" />
+
+    <Button
+        android:id="@+id/buttonSave"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Save"
+        app:layout_constraintLeft_toLeftOf="@id/editTextPassword"
+        app:layout_constraintTop_toBottomOf="@id/editTextPassword" />
+</androidx.constraintlayout.widget.ConstraintLayout>
