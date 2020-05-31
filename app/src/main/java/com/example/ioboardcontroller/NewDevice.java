@@ -72,7 +72,7 @@ public class NewDevice implements Serializable
     {
         return (this.initval);
     }
-    public String getLevel()
+    public String getAuthorizationLevel()
     {
         return (this.level);
     }
@@ -289,8 +289,10 @@ public class NewDevice implements Serializable
                 service = "channel";
             else if (chnnl < 10)
                 service = "bit";
-            else
+            else {
                 service = "pulse";
+                value = this.getInitval()* 100000;
+            }
         }
 
         if (service.equals(""))

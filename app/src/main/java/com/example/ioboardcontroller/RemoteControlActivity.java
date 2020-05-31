@@ -193,7 +193,7 @@ public class RemoteControlActivity extends AppCompatActivity
                     onOffSwitch.setText("");
                     onOffSwitch.setTextOn("ON");
                     onOffSwitch.setTextOff("OFF");
-                    onOffSwitch.setEnabled(d.getCateg().equals("A"));
+                    onOffSwitch.setEnabled(d.getCateg().equals("A") && d.getAuthorizationLevel().equals("W"));
                     onOffSwitch.setLayoutParams(params);
 
                     myCheckedChangedListener ccl = new myCheckedChangedListener();
@@ -216,7 +216,7 @@ public class RemoteControlActivity extends AppCompatActivity
                         items[j] = new Integer(j).toString();
                     ArrayAdapter<String> adapter = new ArrayAdapter<>(RemoteControlActivity.this, android.R.layout.simple_spinner_dropdown_item, items);
                     spinner.setAdapter(adapter);
-                    spinner.setEnabled(d.getCateg().equals("A"));
+                    spinner.setEnabled(d.getCateg().equals("A") && d.getAuthorizationLevel().equals("W"));
                     spinner.setLayoutParams(params);
 
                     myItemSelectedListener isl = new myItemSelectedListener();
@@ -234,6 +234,7 @@ public class RemoteControlActivity extends AppCompatActivity
                     //button.setId(); //button.generateViewId();
                     button.setTag("device" + d.getDevid());
                     button.setText("Press");
+                    button.setEnabled(d.getAuthorizationLevel().equals("W"));
                     button.setLayoutParams(params);
 
                     myClickListener cl = new myClickListener();
@@ -275,7 +276,7 @@ public class RemoteControlActivity extends AppCompatActivity
     {
         ExtendedNewDevice(NewDevice d)
         {
-            super(d.getHostname(), d.getService(), d.getDevid(), d.getChnnl(), d.getDtype(), d.getNumstates(), d.getInitval(), d.getLevel(), d.getDtext(), d.getDttext(), d.getCateg(), d.getCatxt(), d.getDicon(), d.getDticon(), d.getValue());
+            super(d.getHostname(), d.getService(), d.getDevid(), d.getChnnl(), d.getDtype(), d.getNumstates(), d.getInitval(), d.getAuthorizationLevel(), d.getDtext(), d.getDttext(), d.getCateg(), d.getCatxt(), d.getDicon(), d.getDticon(), d.getValue());
         }
 
         @Override
