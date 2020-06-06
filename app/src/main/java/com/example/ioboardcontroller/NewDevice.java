@@ -252,23 +252,7 @@ public class NewDevice implements Serializable
 
     public void getDeviceValue(View view)
     {
-        String service = "";
-        int chnnl = this.getChnnl();
-
-        if (this.getCateg().equals("A"))
-        {
-            if (chnnl < 8)
-                service = "channel";
-            else if (chnnl < 10)
-                service = "bit";
-        }
-        else
-            service = "readchannel";
-
-        if (service.equals(""))
-            return;
-
-        String url =  makeURL(service, "&id="+chnnl+"&devid="+devid);
+        String url = makeURL(service, "&id="+chnnl+"&devid="+devid);
 
         //recyclerViewHolder = holder;
         RequestTask_getDeviceValue asyncTask = new RequestTask_getDeviceValue();
@@ -278,26 +262,6 @@ public class NewDevice implements Serializable
 
     public void setDeviceValue(View view)
     {
-        String service = "";
-        int chnnl = this.getChnnl();
-        int devid = this.getDevid();
-        int value = this.getValue();
-
-        if (this.getCateg().equals("A"))
-        {
-            if (chnnl < 8)
-                service = "channel";
-            else if (chnnl < 10)
-                service = "bit";
-            else {
-                service = "pulse";
-                value = this.getInitval()* 100000;
-            }
-        }
-
-        if (service.equals(""))
-            return;
-
         String url =  makeURL(service, "&id="+chnnl+"&devid="+devid+"&value="+value);
 
         //recyclerViewHolder = holder;

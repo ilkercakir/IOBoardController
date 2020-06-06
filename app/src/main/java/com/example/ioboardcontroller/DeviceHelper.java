@@ -111,7 +111,7 @@ public class DeviceHelper
                 for (int i = 0; i < devs.length(); i++)
                 {
                     JSONObject device = devs.getJSONObject(i);
-                    NewDevice dev = new NewDevice(hostName, strDev[intDev], device.getInt("devid"), device.getInt("chnnl"), device.getInt("dtype"), device.getInt("numstates"), device.getInt("initval"), device.getString("level"), device.getString("dtext"), device.getString("dttext"), device.getString("categ"), device.getString("catxt"), device.getString("dicon"), device.getString("dticon"), 0);
+                    NewDevice dev = new NewDevice(hostName, device.getString("service"), device.getInt("devid"), device.getInt("chnnl"), device.getInt("dtype"), device.getInt("numstates"), device.getInt("initval"), device.getString("level"), device.getString("dtext"), device.getString("dttext"), device.getString("categ"), device.getString("catxt"), device.getString("dicon"), device.getString("dticon"), 0);
                     deviceList.add(dev);
                 }
                 addToList(deviceList);

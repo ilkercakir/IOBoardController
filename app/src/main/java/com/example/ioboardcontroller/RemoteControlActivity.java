@@ -242,6 +242,10 @@ public class RemoteControlActivity extends AppCompatActivity
                     button.setOnClickListener(cl);
 
                     holder.layoutControl.addView(button);
+                    xnd.getDeviceValue((View)button); // async
+
+                    listener = new recyclerViewItemClickListener(d, (View)button);
+                    holder.itemView.setOnClickListener(listener);
                     break;
             }
         }
@@ -289,6 +293,9 @@ public class RemoteControlActivity extends AppCompatActivity
             else if (view instanceof Spinner)
             {
                 ((Spinner)view).setSelection(dev.getValue(), true);
+            }
+            else if (view instanceof Button)
+            {
             }
         }
     }
