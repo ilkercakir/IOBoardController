@@ -11,6 +11,8 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -309,8 +311,10 @@ public class RemoteControlActivity extends AppCompatActivity
                 NewDevice d = recyclerAdapter.mData.get(i);
                 ExtendedNewDevice xnd = new ExtendedNewDevice(d);
                 RecyclerView.ViewHolder holder = recyclerView.findViewHolderForAdapterPosition(i);
-                View view = holder.itemView.findViewWithTag("device" + d.getDevid());
-                xnd.getDeviceValue(view);
+                if (holder!=null) {
+                    View view = holder.itemView.findViewWithTag("device" + d.getDevid());
+                    xnd.getDeviceValue(view);
+                }
                 //Toast.makeText(getApplicationContext(), "hello", Toast.LENGTH_LONG).show();
             }
         }
@@ -346,5 +350,30 @@ public class RemoteControlActivity extends AppCompatActivity
 
         setResult(NewControllerActivity.RESULT_CANCELED, myIntent);
         RemoteControlActivity.this.finish();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_remote, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.change_password)
+        {
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }
