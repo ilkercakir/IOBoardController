@@ -1,7 +1,9 @@
 package com.example.ioboardcontroller;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.view.View;
@@ -228,7 +230,16 @@ public class NewDevice implements Serializable
             {
                 InputStream in = new URL(url).openStream();
                 bitmap = BitmapFactory.decodeStream(in);
-                mIcon = Bitmap.createScaledBitmap(bitmap, bmImage.getWidth(), bmImage.getHeight(), true);
+                int width = bmImage.getWidth();
+                int height = bmImage.getHeight();
+                if ((width <= 0) || (height <= 0))
+                {
+                    Context c = MainActivity.getMainContext();
+                    Bitmap ri = BitmapFactory.decodeResource(c.getResources(), R.drawable.controller);
+                    width = ri.getWidth();
+                    height = ri.getHeight();
+                }
+                mIcon = Bitmap.createScaledBitmap(bitmap, width, height, true);
             }
             catch (Exception e)
             {

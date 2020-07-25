@@ -25,7 +25,7 @@
             android:layout_weight="0"
             android:background="?attr/actionBarItemBackground"
             android:scaleType="center"
-            app:srcCompat="@drawable/reload" />
+            app:srcCompat="@drawable/actionreload" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

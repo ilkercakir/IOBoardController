@@ -15,6 +15,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewParent;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -55,7 +56,7 @@ public class RemoteControlActivity extends AppCompatActivity
             int value = (arg1?1:0); // ischecked
             d.setValue(value);
             d.setDeviceValue(view);
-            //Toast.makeText(getApplicationContext(), new Integer(value).toString(), Toast.LENGTH_LONG).show();
+            //Toast.makeText(getApplicationContext(), Integer.toString(d.getDevid()), Toast.LENGTH_LONG).show();
         }
     }
 
@@ -161,7 +162,7 @@ public class RemoteControlActivity extends AppCompatActivity
         @Override
         public rViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
         {
-            rViewHolder holder;
+            //rViewHolder holder;
 
             View view = mInflater.inflate(R.layout.device_row, parent, false);
             return(new rViewHolder(view));
@@ -180,9 +181,17 @@ public class RemoteControlActivity extends AppCompatActivity
             ExtendedNewDevice xnd = new ExtendedNewDevice(d);
 
             holder.textViewDtext.setText(d.getDtext());
-            holder.textViewCatxt.setText(d.getCatxt() + ", " + d.getDttext());
-            //holder.imageViewDevice.setImageResource(R.drawable.unknown);
+            String catxt = d.getCatxt() + ", " + d.getDttext();
+            holder.textViewCatxt.setText(catxt);
             d.loadImage(holder.imageViewDevice, d.getDicon());
+
+            int childPos = holder.layoutControl.getChildCount();
+            while(childPos>0)
+            {
+                childPos--;
+                View view = holder.layoutControl.getChildAt(childPos);
+                holder.layoutControl.removeView(view);
+            }
 
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 
@@ -215,7 +224,7 @@ public class RemoteControlActivity extends AppCompatActivity
                     spinner.setTag("device" + d.getDevid());
                     String[] items = new String[d.getNumstates()];
                     for(int j=0;j<d.getNumstates();j++)
-                        items[j] = new Integer(j).toString();
+                        items[j] = Integer.toString(j);
                     ArrayAdapter<String> adapter = new ArrayAdapter<>(RemoteControlActivity.this, android.R.layout.simple_spinner_dropdown_item, items);
                     spinner.setAdapter(adapter);
                     spinner.setEnabled(d.getCateg().equals("A") && d.getAuthorizationLevel().equals("W"));
@@ -320,6 +329,44 @@ public class RemoteControlActivity extends AppCompatActivity
         }
     }
 
+    private void startChangePasswordActivity(NewController c)
+    {
+        Intent ncaIntent = new Intent(RemoteControlActivity.this, ChangePasswordActivity.class);
+        ncaIntent.putExtra("newControllerDefinition", c); // Optional parameters
+        //RemoteControlActivity.this.startActivity(myIntent);
+        RemoteControlActivity.this.startActivityForResult(ncaIntent, 0);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        // Handle the logic for the requestCode, resultCode and data returned...
+        try
+        {
+            super.onActivityResult(requestCode, resultCode, data);
+
+            NewController newController = (NewController)data.getSerializableExtra("newControllerDefinition");
+            switch (requestCode)
+            {
+                case 0: // Change Password
+                    switch (resultCode)
+                    {
+                        case RESULT_OK:
+                        case RESULT_CANCELED:
+                        default:
+                            break;
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+        catch (Exception ex)
+        {
+            Toast.makeText(RemoteControlActivity.this, ex.toString(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -371,6 +418,7 @@ public class RemoteControlActivity extends AppCompatActivity
         //noinspection SimplifiableIfStatement
         if (id == R.id.change_password)
         {
+            startChangePasswordActivity(newController);
             return true;
         }
 

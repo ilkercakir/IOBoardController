@@ -137,6 +137,11 @@ public class NewController implements Serializable
 
     }
 
+    public void onPasswordSet()
+    {
+
+    }
+
     private class RequestTask_getControllerStatus extends AsyncTask<String, String, String>
     {
         String responseString = "", stacktraceString = "";
@@ -336,4 +341,114 @@ public class NewController implements Serializable
         RequestTask_RLogin asyncTask = new RequestTask_RLogin();
         asyncTask.execute(url, this.username, this.password);
     }
+
+    private class RequestTask_SetPassword extends AsyncTask<String, String, String>
+    {
+        String responseString = "", stacktraceString = "";
+        boolean success = true;
+
+        private String getStackTrace(final Throwable throwable)
+        {
+            final StringWriter sw = new StringWriter();
+            final PrintWriter pw = new PrintWriter(sw, true);
+            throwable.printStackTrace(pw);
+            return sw.getBuffer().toString();
+        }
+
+        @Override
+        protected String doInBackground(String... uri)
+        {
+            URL url = null;
+            try
+            {
+                url = new URL(uri[0]);
+                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                urlConnection.setDoInput(true);
+                urlConnection.setDoOutput(true);
+
+                // Post request
+                List<NameValuePair> params = new ArrayList<NameValuePair>();
+                params.add(new NameValuePair("password", uri[1]));
+                String urlEncoded = "";
+                for(int i=0;i<params.size();i++)
+                    urlEncoded += "&" + params.get(i).getPair();
+                urlEncoded = urlEncoded.replaceFirst("&", "");
+                byte[] postData = urlEncoded.getBytes();
+                int postDataLength = postData.length;
+
+                urlConnection.setRequestMethod( "POST" );
+                urlConnection.setRequestProperty( "Content-Type", "application/x-www-form-urlencoded");
+                urlConnection.setRequestProperty( "charset", "utf-8");
+                urlConnection.setRequestProperty( "Content-Length", Integer.toString( postDataLength ));
+
+                OutputStream os = urlConnection.getOutputStream();
+                DataOutputStream dos = new DataOutputStream(os);
+                dos.write(postData);
+                dos.flush();
+                dos.close();
+                os.close();
+
+                // Response
+                InputStream is = new BufferedInputStream(urlConnection.getInputStream());
+                InputStreamReader isr = new InputStreamReader(is,"UTF-8");
+                BufferedReader inputStream = new BufferedReader(isr);
+
+                StringBuffer sb = new StringBuffer();
+                String str;
+                while((str = inputStream.readLine())!= null)
+                {
+                    sb.append(str);
+                }
+                inputStream.close();
+                isr.close();
+                is.close();
+
+                responseString = sb.toString();
+
+                urlConnection.disconnect();
+            }
+            catch (IOException e)
+            {
+                //e.printStackTrace();
+                stacktraceString = getStackTrace(e);
+                success = false;
+            }
+
+            return responseString;
+        }
+
+        @Override
+        protected void onPostExecute(String result)
+        {
+            super.onPostExecute(result);
+            //Do anything with response..
+
+            try
+            {
+                // Parse
+                JSONObject json = new JSONObject(result);
+                Integer i = json.getInt("setpassword");
+                if (i==1)
+                {
+                    onPasswordSet();
+                }
+                else{
+                }
+            }
+            catch(JSONException j)
+            {
+                String s = getStackTrace(j);
+                success = false;
+            }
+        }
+    }
+
+    public void setNewPassword()
+    {
+        String url =  makeURL("setpassword", "");
+
+        RequestTask_SetPassword asyncTask = new RequestTask_SetPassword();
+        asyncTask.execute(url, this.password);
+    }
+
 }

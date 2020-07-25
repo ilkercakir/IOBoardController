@@ -42,7 +42,13 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity
 {
+    static Context mainContext;
     ControllerRecyclerViewAdapter recyclerAdapter;
+
+    public static Context getMainContext()
+    {
+        return(mainContext);
+    }
 
     private class recyclerViewItemClickListener implements View.OnClickListener
     {
@@ -366,6 +372,8 @@ public class MainActivity extends AppCompatActivity
         ItemTouchHelperSimpleCallback ithsc = new ItemTouchHelperSimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT, controllerDB, recyclerAdapter);
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(ithsc);
         itemTouchHelper.attachToRecyclerView(recyclerView);
+
+        mainContext = this.getApplicationContext();
     }
 
 /*

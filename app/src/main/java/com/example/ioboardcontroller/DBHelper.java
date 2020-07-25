@@ -76,5 +76,11 @@ public class DBHelper extends SQLiteOpenHelper
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("update controllers set name = '" + c.getName() + "', hostname = '" + c.getHostname() + "', username = '" + c.getUsername() + "', password = '" + c.getPassword() + "' where id = " + c.getID().toString());
     }
+
+    public void setPassword(NewController c)
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("update controllers set password = '" + c.getPassword() + "' where id = " + c.getID().toString());
+    }
 }
 
